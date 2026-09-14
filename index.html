@@ -3,1578 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
-
-<title>Monpad | Agenda inteligente</title>
-
+<title>Monpad — Tu tiempo, en orden</title>
+<meta name="description" content="Monpad. Una agenda sencilla para organizar tu día.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* 
-=========================================
-   VARIABLES Y CONFIGURACIÓN BASE
-========================================= 
-*/
-:root {
-    --blanco-puro: #ffffff;
-    --texto-principal: #070707;
-    --texto-secundario: #64748b;
-    --acento: #2bc011; 
-    --borde: #e2e8f0;
-    color-scheme: light;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
-}
-
-html, body {
-    background-color: var(--blanco-puro) !important;
-    color: var(--texto-principal);
-    line-height: 1.6;
-}
-
-/* 
-=========================================
-   NAVEGACIÓN 
-========================================= 
-*/
-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: var(--blanco-puro) !important;
-    border-bottom: 1px solid var(--borde);
-    z-index: 1000;
-}
-
-nav {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.brand-month {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-}
-
-.brand-letter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background-color: var(--texto-principal);
-    color: var(--blanco-puro);
-    font-weight: 800;
-    font-size: 26px;
-    text-decoration: none;
-    border-radius: 12px;
-    letter-spacing: normal;
-    flex-shrink: 0;
-}
-
-/* ─── CAMBIA EL COLOR DE CADA LETRA AQUÍ ─── */
-/* M - letra 1:  background-color , color */
-.brand-letter:nth-child(1) {
-    background-color:rgb(9, 213, 19);
-}
-/* O - letra 2:  background-color , color */
-.brand-letter:nth-child(2) {
-    background-color:rgb(235, 4, 197);
-}
-/* N - letra 3:  background-color , color */
-.brand-letter:nth-child(3) {
-    background-color:rgb(18, 137, 242);
-}
-/* T - letra 4:  background-color , color */
-.brand-letter:nth-child(4) {
-    background-color:rgb(255, 0, 47);
-}
-/* H - letra 5:  background-color , color */
-.brand-letter:nth-child(5) {
-    background-color:rgb(255, 136, 0);
-}
-
-.nav-links {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--texto-secundario);
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: var(--acento);
-}
-
-/* 
-=========================================
-   SECCIÓN HERO (SPLIT LAYOUT)
-========================================= 
-*/
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5%;
-}
-
-.hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 60px;
-    padding-top: 80px;
-}
-
-.hero-text h1 {
-    font-size: 4rem;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 24px;
-    letter-spacing: -2px;
-}
-
-.we-are {
-    font-size: 0.55em;
-    font-weight: 400;
-    display: block;
-    letter-spacing: 4px;
-    text-transform: none;
-    margin-bottom: 4px;
-    animation: fadeSlideIn 1.2s ease forwards;
-}
-
-.month-text {
-    display: inline-block;
-    color: var(--texto-principal);
-    animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-.pre-release {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--texto-secundario);
-    letter-spacing: 2px;
-    text-transform: lowercase;
-    margin-bottom: 16px;
-}
-
-.blinking-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: #ef4444;
-    border-radius: 50%;
-    animation: blink 1.2s ease-in-out infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
-}
-
-@keyframes fadeSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes scaleIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.5);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.hero-text p {
-    font-size: 1.2rem;
-    color: var(--texto-secundario);
-    margin-bottom: 40px;
-    max-width: 90%;
-}
-
-.btn {
-    display: inline-block;
-    background-color: var(--texto-principal);
-    color: var(--blanco-puro);
-    padding: 16px 32px;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 999px;
-    transition: background 0.3s ease;
-}
-
-.btn:hover {
-    background-color: var(--acento);
-}
-
-.hero-image-container {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    justify-self: center;
-}
-
-.hero-img {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4/5;
-    object-fit: cover;
-    z-index: 1;
-    border-radius: 8px; /* Agregué un ligero borde redondeado para que se vea más limpio */
-}
-
-/* 
-=========================================
-   SECCIONES (TECNOLOGÍA Y PROYECTOS)
-========================================= 
-*/
-section {
-    padding: 100px 0;
-}
-
-.section-header {
-    margin-bottom: 60px;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-}
-
-.section-header p {
-    color: var(--texto-secundario);
-    font-size: 1.1rem;
-    margin-top: 10px;
-}
-
-/* 
-=========================================
-   CARRUSEL DE FUNCIONALIDADES
-========================================= 
-*/
-.carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    gap: 0;
-}
-
-.carousel-slide {
-    min-width: 100%;
-    padding: 40px;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    box-sizing: border-box;
-    background: var(--blanco-puro);
-}
-
-.carousel-slide h3 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-    font-weight: 800;
-    letter-spacing: -1px;
-}
-
-.carousel-slide p {
-    color: var(--texto-secundario);
-    font-size: 1.1rem;
-    line-height: 1.7;
-}
-
-/* 
-=========================================
-   CARRUSEL DE IMÁGENES (ACERCA DE)
-   [FIX] Contenedor con aspect-ratio y overflow controlado
-   en vez de height fija + declaración CSS rota (max / width).
-   Se añadieron estilos para el track y los slides internos,
-   que antes no existían y por eso las imágenes no respetaban
-   el tamaño del contenedor.
-========================================= 
-*/
-.image-carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto 40px;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 12px;
-    background-color: var(--blanco-puro);
-}
-
-.image-carousel-track {
-    position: relative;
-    height: 100%;
-}
-
-.image-carousel-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-}
-
-.image-carousel-slide.active {
-    opacity: 1;
-    z-index: 1;
-}
-
-.image-carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.carousel-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    margin-top: 30px;
-}
-
-.carousel-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid var(--borde);
-    background: var(--blanco-puro);
-    color: var(--texto-principal);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.carousel-btn:hover {
-    border-color: var(--texto-principal);
-    background: var(--texto-principal);
-    color: var(--blanco-puro);
-}
-
-.carousel-dots {
-    display: flex;
-    gap: 8px;
-}
-
-.carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--borde);
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.carousel-dot.active {
-    background: var(--texto-principal);
-    width: 24px;
-    border-radius: 4px;
-}
-
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-}
-
-.project-card {
-    border: 1px solid var(--borde);
-    padding: 40px;
-    background-color: var(--blanco-puro) !important;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-}
-
-.project-card:hover {
-    border-color: var(--texto-principal);
-    transform: translateY(-5px);
-}
-
-.project-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-}
-
-.project-card p {
-    color: var(--texto-secundario);
-    margin-bottom: 25px;
-}
-
-.project-link {
-    color: var(--acento);
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.project-link:hover {
-    text-decoration: underline;
-}
-
-/* 
-=========================================
-   MODAL
-========================================= 
-*/
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-overlay.active {
-    display: flex;
-}
-
-.modal {
-    background: var(--blanco-puro);
-    border-radius: 16px;
-    max-width: 420px;
-    width: 90%;
-    position: relative;
-    animation: modalIn 0.3s ease;
-    overflow: hidden;
-}
-
-@keyframes modalIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.modal-close {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    background: rgba(0,0,0,0.3);
-    border: none;
-    font-size: 18px;
-    color: #fff;
-    cursor: pointer;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    line-height: 1;
-}
-
-.modal-close:hover {
-    background: rgba(0,0,0,0.5);
-}
-
-.modal-img {
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    display: block;
-    border-radius: 8px;
-    position: absolute;
-    top: 22px;
-    left: 24px;
-    z-index: 5;
-}
-
-.modal-img2 {
-    width: 54px;
-    height: 54px;
-    object-fit: cover;
-    display: block;
-    border-radius: 10px;
-    position: absolute;
-    top: 13px;
-    left: 66px;
-    z-index: 5;
-}
-
-.modal-body {
-    padding: 70px 30px 30px;
-}
-
-.modal h3 {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-}
-
-.modal p {
-    color: var(--texto-secundario);
-    font-size: 0.95rem;
-    margin-bottom: 24px;
-}
-
-.modal .btn-download {
-    display: block;
-    width: 100%;
-    background-color: var(--texto-principal);
-    color: var(--blanco-puro);
-    text-align: center;
-    padding: 14px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.3s ease;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.modal .btn-download:hover {
-    background-color: #000;
-}
-
-.modal .btn-download.hidden {
-    display: none;
-}
-
-/* Mensaje de mantenimiento (reemplaza la descarga) */
-.maintenance-msg {
-    display: none;
-    text-align: center;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--texto-principal);
-    padding: 20px 0;
-    line-height: 1.6;
-}
-
-.maintenance-msg.active {
-    display: block;
-}
-
-.maintenance-msg span {
-    display: inline-block;
-    background-color: #fef3c7;
-    color: #92400e;
-    padding: 4px 14px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.progress-bar-container {
-    width: 100%;
-    height: 48px;
-    background-color: var(--borde);
-    border-radius: 999px;
-    overflow: hidden;
-    display: none;
-    position: relative;
-}
-
-.progress-bar-container.active {
-    display: block;
-}
-
-.progress-bar-fill {
-    width: 0%;
-    height: 100%;
-    background-color: var(--texto-principal);
-    border-radius: 999px;
-    transition: width 0.1s linear;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--blanco-puro);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
-
-.progress-bar-fill::before {
-    content: "Espere por favor";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--texto-secundario);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.progress-bar-fill.filling::before {
-    content: "Descargando...";
-    color: var(--blanco-puro);
-}
-
-/* 
-=========================================
-   FOOTER
-========================================= 
-*/
-footer {
-    border-top: 1px solid var(--borde);
-    padding: 60px 5% 30px;
-    background-color: var(--blanco-puro);
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    flex-wrap: wrap;
-    padding-bottom: 40px;
-}
-
-.footer-brand .brand-letter {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-.footer-brand p {
-    color: var(--texto-secundario);
-    font-size: 0.95rem;
-    margin-top: 14px;
-    max-width: 280px;
-}
-
-.footer-links {
-    display: flex;
-    gap: 60px;
-    flex-wrap: wrap;
-}
-
-.footer-col h4 {
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 16px;
-    color: var(--texto-principal);
-}
-
-.footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.footer-col a {
-    color: var(--texto-secundario);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.footer-col a svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    fill: currentColor;
-}
-
-.footer-col a:hover {
-    color: var(--acento);
-}
-
-.footer-bottom {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 30px;
-    border-top: 1px solid var(--borde);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.footer-bottom p {
-    color: var(--texto-secundario);
-    font-size: 0.85rem;
-}
-
-.footer-badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--texto-secundario);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: lowercase;
-}
-
-.footer-badge .blinking-dot {
-    background-color: #ef4444;
-}
-
-@media (max-width: 600px) {
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-
-    .footer-brand {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .footer-brand .brand-month {
-        justify-content: center;
-    }
-
-    .footer-links {
-        justify-content: center;
-        gap: 40px;
-    }
-
-    .footer-col {
-        text-align: center;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-
-/* 
-=========================================
-   RESPONSIVE DESIGN (MÓVILES)
-========================================= 
-*/
-@media (max-width: 900px) {
-    html, body {
-        overflow-x: hidden;
-    }
-    
-    .hero {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        padding-top: 100px;
-        padding-bottom: 40px;
-        gap: 8px;
-        min-height: auto;
-    }
-    
-    .hero-text {
-        display: contents;
-    }
-    
-    .hero-text h1 {
-        font-size: 3rem;
-        order: 1;
-        margin-bottom: 0;
-    }
-    
-    .hero-image-container {
-        max-width: 200px;
-        margin: 0 auto;
-        order: 2;
-    }
-    
-    .hero .btn {
-        order: 3;
-        align-self: center;
-    }
-    
-    .hero .mobile-only {
-        order: 4;
-        align-self: center;
-        margin-top: 4px;
-    }
-    
-    .desktop-only {
-        display: none !important;
-    }
-
-    .mobile-only {
-        display: flex !important;
-    }
-    
-    .nav-links {
-        display: none; 
-    }
-}
-
-@media (min-width: 901px) {
-    .mobile-only {
-        display: none !important;
-    }
-    .desktop-only {
-        display: flex !important;
-    }
-    .android-icon.desktop-only {
-        display: inline-block !important;
-        margin-left: 6px;
-        vertical-align: middle;
-    }
-
-    .hero-text h1 {
-        font-size: 5.5rem;
-    }
-
-    .we-are {
-        font-size: 0.55em;
-        letter-spacing: 6px;
-    }
-
-    .pre-release {
-        font-size: 1rem;
-        margin-bottom: 24px;
-    }
-
-    .btn {
-        font-size: 1.2rem;
-        padding: 20px 44px;
-    }
-}
-
-@media (max-width: 600px) {
-    nav {
-        padding: 12px 16px;
-    }
-
-    .container {
-        padding: 0 16px;
-    }
-
-    .hero {
-        gap: 14px;
-        padding-top: 96px;
-    }
-
-    .hero-text h1 {
-        font-size: 2.5rem;
-        letter-spacing: -2px;
-    }
-
-    .hero-image-container {
-        max-width: min(68vw, 240px);
-    }
-
-    .hero-text p {
-        max-width: 100%;
-        font-size: 0.95rem;
-    }
-
-    .hero .btn {
-        width: min(100%, 280px);
-        text-align: center;
-    }
-
-    .project-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .project-card,
-    .carousel-slide {
-        padding: 24px;
-    }
-}
-
-@media (max-width: 500px) {
-    .hero {
-        gap: 6px;
-        padding-top: 90px;
-    }
-    
-    section {
-        padding: 60px 0;
-    }
-    
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-image-container {
-        max-width: 160px;
-    }
-    
-    .project-card {
-        padding: 25px;
-    }
-    
-    .brand-letter {
-        width: 24px;
-        height: 24px;
-        font-size: 11px;
-        border-radius: 6px;
-    }
-    
-    .brand-month {
-        gap: 4px;
-    }
-    
-    .section-header,
-    .section-header h2,
-    .section-header p,
-    .carousel-slide,
-    .carousel-slide h3,
-    .carousel-slide p {
-        text-align: center;
-    }
-    
-    .image-carousel-container {
-        max-width: 320px;
-    }
-}
-
-</style>
-<style>
-/* Monpad visual system */
-:root {
-    --blanco-puro: #ffffff;
-    --texto-principal: #242424;
-    --texto-secundario: #787774;
-    --acento: #4e4e4e;
-    --borde: #e9e9e7;
-    --tinta-suave: #ffffff;
-}
-
-body {
-    background: var(--blanco-puro) !important;
-    color: var(--texto-principal);
-    font-family: 'Inter', sans-serif;
-}
-
-header {
-    background: #ffffff !important;
-    border-bottom-color: var(--borde);
-}
-
-nav {
-    max-width: 1120px;
-    padding: 15px 32px;
-}
-
-.brand-month {
-    gap: 8px;
-    color: var(--texto-principal);
-}
-
-.brand-month::after {
-    content: 'Monpad';
-    margin-left: 4px;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-}
-
-.brand-letter {
-    display: none;
-}
-
-.nav-links {
-    gap: 28px;
-}
-
-.nav-links a {
-    color: var(--texto-secundario);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0;
-    text-transform: none;
-}
-
-.nav-links a:hover,
-.project-link:hover,
-.footer-col a:hover {
-    color: var(--acento);
-}
-
-.container {
-    max-width: 1120px;
-    padding: 0 32px;
-}
-
-.hero {
-    min-height: 78vh;
-    grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.75fr);
-    gap: clamp(48px, 8vw, 104px);
-    padding-top: 88px;
-    padding-bottom: 64px;
-}
-
-.hero-text h1 {
-    color: var(--texto-principal);
-    max-width: 680px;
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    letter-spacing: -4px;
-    line-height: 0.98;
-}
-
-.we-are {
-    color: var(--texto-secundario);
-    font-size: 0.23em;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-}
-
-.month-text {
-    color: var(--texto-principal);
-}
-
-.pre-release {
-    color: var(--texto-secundario);
-    font-size: 0.76rem;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-}
-
-.blinking-dot {
-    width: 7px;
-    height: 7px;
-    background-color: #d9730d;
-}
-
-.hero-image-container {
-    max-width: 320px;
-}
-
-.hero-img {
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    display: block;
-    border: none;
-    border-radius: 24px;
-    box-shadow: none;
-}
-
-.btn,
-.modal .btn-download {
-    background: var(--texto-principal);
-    border-radius: 6px;
-    box-shadow: none;
-    font-size: 0.95rem;
-    padding: 13px 20px;
-}
-
-.btn:hover,
-.modal .btn-download:hover {
-    background: #37352f;
-}
-
-section {
-    padding: 88px 0;
-}
-
-.section-header {
-    margin-bottom: 36px;
-    max-width: 640px;
-}
-
-.section-header h2 {
-    font-size: 2.2rem;
-    letter-spacing: -1.5px;
-}
-
-.section-header p,
-.hero-text p {
-    color: var(--texto-secundario);
-    font-size: 1rem;
-    max-width: 560px;
-}
-
-.image-carousel-container,
-.carousel-slide,
-.project-card {
-    border-color: var(--borde);
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: none;
-}
-
-.project-card:hover {
-    transform: none;
-    border-color: var(--borde);
-}
-
-.image-carousel-container {
-    max-width: 760px;
-}
-
-.carousel-slide {
-    padding: 32px;
-}
-
-.carousel-slide h3 {
-    font-size: 1.45rem;
-    letter-spacing: -0.5px;
-}
-
-.carousel-slide p,
-.project-card p {
-    color: var(--texto-secundario);
-    font-size: 1rem;
-}
-
-.carousel-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-}
-
-.carousel-dot.active {
-    background: var(--acento);
-}
-
-footer {
-    background: #ffffff;
-    border-top-color: var(--borde);
-    padding-top: 52px;
-}
-
-.footer-brand .brand-month::after {
-    font-size: 15px;
-}
-
-.footer-brand p,
-.footer-bottom p,
-.footer-badge {
-    color: var(--texto-secundario);
-}
-
-.modal-overlay {
-    background: rgba(35, 35, 32, 0.28);
-}
-
-.modal {
-    border: 1px solid var(--borde);
-    border-radius: 10px;
-    box-shadow: none;
-}
-
-.modal-close {
-    background: var(--tinta-suave);
-    color: var(--texto-secundario);
-}
-
-.modal-close:hover {
-    background: var(--borde);
-}
-
-@media (max-width: 900px) {
-    nav {
-        padding: 14px 20px;
-    }
-
-    .container {
-        padding: 0 20px;
-    }
-
-    .hero {
-        padding-top: 108px;
-    }
-}
-
-@media (max-width: 500px) {
-    .hero-text h1 {
-        letter-spacing: -3px;
-    }
-
-    .section-header h2 {
-        font-size: 1.9rem;
-    }
+:root{
+  --bg:#FFFFFF;
+  --paper:#F7F6F3;
+  --ink:#191919;
+  --muted:#787774;
+  --line:#E9E9E7;
+  --soft:#F1F1EF;
+  --blue-bg:#E7F3F8; --blue-text:#0B6E99;
+  --green-bg:#EDF3EC; --green-text:#448361;
+  --amber-bg:#FAEBDD; --amber-text:#9A5B13;
+  --max:720px;
+  --r:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  font-size:16px;
+}
+a{color:inherit;text-decoration:none;transition:color .2s ease}
+button{font:inherit;transition:all .2s ease}
+img{max-width:100%;display:block}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+@keyframes fadeIn {
+  from {opacity:0}
+  to {opacity:1}
+}
+@keyframes modalOpen {
+  0% {opacity:0;transform:translate(-50%,-50%) scale(.8)}
+  80% {transform:translate(-50%,-50%) scale(1.05)}
+  100% {opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+
+.section, .page, .download-card, .feature {
+  opacity:0;
+  animation:fadeInUp .6s ease forwards;
+}
+
+.section:nth-child(1) {animation-delay:.1s}
+.section:nth-child(2) {animation-delay:.2s}
+.section:nth-child(3) {animation-delay:.3s}
+.feature:nth-child(1) {animation-delay:.1s}
+.feature:nth-child(2) {animation-delay:.2s}
+.feature:nth-child(3) {animation-delay:.3s}
+.feature:nth-child(4) {animation-delay:.4s}
+.download-card:nth-child(1) {animation-delay:.1s}
+.download-card:nth-child(2) {animation-delay:.2s}
+
+.button:hover {
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.download-card {
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.download-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+.container{width:min(calc(100% - 32px),var(--max));margin:auto}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:20;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.nav{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:8px}
+.brand-icon{
+  width:40px;height:40px;border-radius:6px;
+  object-fit:cover;
+}
+.brand-name{font-size:15px;font-weight:600}
+.nav-links{display:none}
+.nav-cta{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:34px;padding:0 14px;
+  border:1px solid var(--ink);background:var(--ink);color:var(--bg);
+  border-radius:6px;font-size:13px;font-weight:600;
+}
+.menu{
+  display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border:1px solid var(--line);border-radius:6px;
+  background:none;font-size:15px;cursor:pointer;color:var(--ink);
+}
+.nav-links.open{
+  display:flex;position:absolute;top:56px;left:0;right:0;
+  background:var(--bg);border-bottom:1px solid var(--line);
+  padding:6px 16px 16px;flex-direction:column;gap:0;
+}
+.nav-links a{font-size:14px;color:var(--ink);padding:12px 4px;border-bottom:1px solid var(--soft)}
+.nav-links a:last-child{border-bottom:0}
+
+/* PAGE HEAD (Notion doc-title feel) */
+.page{padding:36px 0 8px}
+.crumbs{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:14px}
+.crumbs .sep{opacity:.6}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(34px,8vw,50px);line-height:1.15}
+.hero-copy{color:var(--muted);font-size:16px;line-height:1.6;margin:14px 0 0;max-width:56ch}
+.hero-title{display:flex;flex-direction:column;align-items:center;gap:4px}
+.title-image{width:180px;height:180px;border-radius:var(--r);object-fit:cover}
+.demo-label{font-size:12px;color:var(--muted);opacity:.6;font-weight:300;text-transform:uppercase;letter-spacing:.05em}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.tag{
+  display:inline-flex;align-items:center;padding:3px 9px;border-radius:5px;
+  font-size:12.5px;font-weight:500;
+}
+.tag.blue{background:var(--blue-bg);color:var(--blue-text)}
+.tag.green{background:var(--green-bg);color:var(--green-text)}
+.tag.amber{background:var(--amber-bg);color:var(--amber-text)}
+.hero-actions{display:flex;flex-direction:column;gap:8px;margin-top:24px}
+.button{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:42px;padding:0 16px;border-radius:6px;border:1px solid var(--line);
+  font-size:14px;font-weight:600;background:var(--bg);
+}
+.button.primary{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.button.secondary:hover{background:var(--soft)}
+.divider{border:0;border-top:1px solid var(--line);margin:36px 0}
+
+/* DOWNLOAD SECTION */
+.download-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.download-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;text-align:center;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);position:relative}
+.download-card img{max-width:80px;height:80px;object-fit:contain}
+.platform-label{position:absolute;top:8px;right:8px;font-size:12px;color:var(--muted);font-weight:300;background:var(--bg);padding:2px 6px;border-radius:4px}
+
+/* SECTIONS as Notion "page blocks" */
+.section{padding:8px 0 36px}
+.block-label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:.03em}
+.section h2{font-size:clamp(22px,6vw,28px);line-height:1.25;margin-bottom:6px}
+.section-intro{color:var(--muted);font-size:15px;line-height:1.65;max-width:56ch;margin:0 0 20px}
+
+/* FEATURE LIST — Notion toggle/list block */
+.list-block{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.feature{
+  padding:16px 16px 16px 18px;border-bottom:1px solid var(--line);
+  border-left:3px solid var(--line);
+}
+.feature:last-child{border-bottom:0}
+.feature h3{font-size:15px;font-weight:600;line-height:1.4}
+.feature p{margin:3px 0 0;color:var(--muted);line-height:1.55;font-size:14px}
+
+/* CALLOUTS */
+.callout{
+  display:flex;gap:12px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;background:var(--paper);
+}
+.callout + .callout{margin-top:12px}
+.callout h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.callout p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.callout.blue{background:var(--blue-bg);border-color:#CFE7F1}
+.callout.blue p{color:#0B6E99cc}
+.callout.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.callout.dark p{color:#B8B8B4}
+.warning-icon{width:20px;height:20px;color:#ff0000;flex-shrink:0; margin-right:8px}
+
+/* FB POST STYLE */
+.fb-post{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.post-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.profile-pic{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.post-info{display:flex;flex-direction:column}
+.post-author{font-weight:600;color:var(--ink);font-size:14px}
+.post-meta{font-size:12px;color:var(--muted)}
+.post-content p{margin:0;color:var(--ink);font-size:14px;line-height:1.5}
+.post-rating{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.stars{display:flex;gap:2px;color:#FFD700}
+.stars svg{width:18px;height:18px}
+
+/* CTA */
+.cta-box{
+  border:1px solid var(--line);border-radius:var(--r);
+  background:var(--paper);padding:28px 20px;text-align:left;
+}
+.cta-box h2{font-size:clamp(22px,6vw,28px)}
+.cta-box p{color:var(--muted);font-size:14px;margin:10px 0 20px;line-height:1.6}
+.cta-box .button{width:100%}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:20px 0 32px}
+.footer{display:flex;flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
+.footer-top{display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-weight:600;color:var(--ink)}
+.footer-links{display:flex;gap:16px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:100;opacity:0;transition:opacity .3s ease}
+.modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:var(--bg);padding:28px;border:1px solid var(--line);border-radius:var(--r);text-align:center;max-width:400px;width:calc(100% - 40px);opacity:0}
+.modal-icons{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.store-icon-modal{width:24px;height:24px;border-radius:4px;object-fit:cover}
+.modal-icon{width:48px;height:48px;border-radius:8px;object-fit:cover;margin:0 auto 16px}
+.modal p{margin:0 0 20px;color:var(--ink);font-size:15px}
+.modal-overlay.active{display:block;opacity:1}
+.modal-overlay.active .modal{animation:modalOpen .4s ease forwards}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* MOBILE */
+@media(max-width:849px){
+  .download-cards{grid-template-columns:1fr}
+  .download-card{padding:16px}
+  .footer-links{flex-wrap:wrap;gap:8px}
+  .footer-top{flex-direction:column;gap:8px;align-items:flex-start}
+}
+
+/* DESKTOP */
+@media(min-width:850px){
+  :root{--max:760px}
+  .nav{min-height:60px}
+  .nav-links{display:flex;flex-direction:row;gap:22px;margin-left:auto;margin-right:12px;position:static;background:none;border:0;padding:0}
+  .nav-links a{border-bottom:0;padding:0;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--ink)}
+  .menu{display:none}
+
+  .page{padding:64px 0 12px}
+  .hero-actions{flex-direction:row}
+  .button{padding:0 18px}
+
+  .section{padding:12px 0 56px}
+  .feature{padding:18px 20px}
+  .title-image{width:250px;height:250px}
 }
 </style>
 </head>
 <body>
-
 <header>
-    <nav>
-        <a href="#" class="brand-month">
-            <span class="brand-letter">M</span>
-            <span class="brand-letter">O</span>
-            <span class="brand-letter">N</span>
-            <span class="brand-letter">T</span>
-            <span class="brand-letter">H</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#acerca">Acerca de</a></li>
-        </ul>
+  <div class="container nav">
+    <a class="brand" href="#inicio" aria-label="Monpad">
+      <img src="monpad.png" alt="Monpad" class="brand-icon">
+    </a>
+    <nav class="nav-links" id="nav">
+      <a href="#funciones">Funciones</a>
+      <a href="#experiencia">Experiencia</a>
     </nav>
+
+    <button class="menu" id="menu" aria-label="Abrir menú">☰</button>
+  </div>
 </header>
 
-<main>
-    <section id="inicio" class="hero container">
-        <div class="hero-text">
-            <div class="pre-release desktop-only">
-                <span class="blinking-dot"></span>
-                PRE-RELEASE 00.01.26
-            </div>
-            <h1><span class="we-are">Tu espacio</span> <span class="month-text">Monpad</span></h1>
+<main id="inicio">
+  <section class="page">
+    <div class="container">
+      <div class="hero-title">
+        <span class="demo-label">Demo 5.09.26</span>
+        <h1>Monpad</h1>
+        <img src="monpad (1).png" alt="Monpad" class="title-image">
+      </div>
+      <p class="hero-copy">
+        Monpad reúne tus actividades y horarios en un solo lugar.
+        Mira tu día de un vistazo y organiza lo que sigue sin complicarlo.
+      </p>
 
-            <button onclick="openModal()" class="btn">Descargar App <svg class="android-icon desktop-only" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 14.38c-.695 0-1.256-.56-1.256-1.254 0-.694.561-1.254 1.256-1.254.694 0 1.254.56 1.254 1.254 0 .694-.56 1.254-1.254 1.254zm-11.046 0c-.695 0-1.256-.56-1.256-1.254 0-.694.561-1.254 1.256-1.254.694 0 1.254.56 1.254 1.254 0 .694-.56 1.254-1.254 1.254zM12.504 1.26L16.414.074c.183-.069.357.131.24.302l-2.413 3.503A9.503 9.503 0 0117.523 6.5H6.477a9.503 9.503 0 013.282-2.621L7.346.376c-.118-.171.057-.371.24-.302l3.91 1.186h1.008zM22.03 8.854c.147.526.47 1.976.47 3.176 0 1.2-.323 2.65-.47 3.176-.28.994-1.373 1.794-2.528 1.794h-2.03v4.352c0 .826-.661 1.393-1.456 1.393-.82 0-1.456-.567-1.456-1.393V17H9.44v3.352c0 .826-.661 1.393-1.456 1.393-.82 0-1.456-.567-1.456-1.393V17H4.498c-1.155 0-2.248-.8-2.528-1.794-.147-.526-.47-1.976-.47-3.176 0-1.2.323-2.65.47-3.176.28-.994 1.373-1.794 2.528-1.794h15.004c1.155 0 2.248.8 2.528 1.794z"/></svg></button>
-            <div class="pre-release mobile-only">
-                <span class="blinking-dot"></span>
-                PRE-RELEASE 00.01.26
-            </div>
-        </div>
-        <div class="hero-image-container">
-            <img class="hero-img" src="IconR.png" alt="Icono de Monpad">
-        </div>
-    </section>
+      <div class="hero-actions">
+        <a class="button secondary" href="#funciones">Conocer más</a>
+      </div>
+    </div>
+  </section>
 
-    <section id="acerca" class="container">
-        <div class="section-header">
-            <h2>Acerca de</h2>
-            <p>Descubre la app de agenda inteligente que organiza tu día.</p>
-        </div>
-        <div class="image-carousel-container" id="imageCarousel">
-            <div class="image-carousel-track" id="imageCarouselTrack">
-                <div class="image-carousel-slide">
-                    <img src="Compatibilidad en 2 Dispositivos.png" alt="Compatibilidad en 2 Dispositivos">
-                </div>
-                <div class="image-carousel-slide">
-                    <img src="Compatibilidad en 2 Dispositivos (1).png" alt="Compatibilidad en 2 Dispositivos 2">
-                </div>
-            </div>
-        </div>
-        <div class="carousel-wrapper">
-            <div class="carousel-track" id="carouselTrack">
-                <div class="carousel-slide">
-                    <h3>Agenda Inteligente</h3>
-                    <p>Organiza tus horarios diarios con una interfaz limpia y moderna. Crea, edita y gestiona eventos en segundos.</p>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Recordatorios</h3>
-                    <p>Nunca olvides una tarea importante. Recibe notificaciones puntuales directamente en tu dispositivo.</p>
-                </div>
-                <div class="carousel-slide">
-                    <h3>100% Local</h3>
-                    <p>Tus datos permanecen en tu dispositivo. Sin conexión a la nube, sin cuentas, sin necesidad de internet.</p>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Diseño Moderno</h3>
-                    <p>Interfaz intuitiva y minimalista con Material Design pensada para una experiencia Funcional.</p>
-                </div>
-            </div>
-            <div class="carousel-controls">
-                <div class="carousel-dots" id="carouselDots"></div>
-            </div>
-        </div>
-    </section>
+  <div class="container"><hr class="divider"></div>
 
-    
+  <section class="section" id="descargar">
+    <div class="container">
+      <div class="callout dark">
+        <div>
+          <svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          <h3>Estamos Actualizando Continuamente.</h3>
+          <p>Lamentamos la Espera.</p>
+        </div>
+      </div>
+      <div class="download-cards">
+        <div class="download-card" data-platform="google">
+          <img src="and.png" alt="Google Play">
+          <span class="platform-label">Android</span>
+          <a class="button primary" href="#" data-platform="google">Descargar</a>
+        </div>
+        <div class="download-card" data-platform="apple">
+          <img src="Apple.png" alt="App Store">
+          <span class="platform-label">Apple</span>
+          <a class="button primary" href="#" data-platform="apple">Descargar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="funciones">
+    <div class="container">
+      <div class="block-label">Funciones</div>
+      <h2>Lo necesario. Nada más.</h2>
+      <p class="section-intro">
+        Monpad está pensado para que organizar tus actividades sea directo:
+        eliges el momento, añades lo que necesitas y sigues con tu día.
+      </p>
+
+      <div class="list-block">
+        <article class="feature">
+          <h3>Agenda por horas</h3>
+          <p>Visualiza tus actividades en una línea de tiempo y entiende cómo está ocupado tu día.</p>
+        </article>
+        <article class="feature">
+          <h3>Actividades</h3>
+          <p>Crea actividades con horario, sin tener que navegar por menús innecesarios.</p>
+        </article>
+        <article class="feature">
+          <h3>Repetición por días</h3>
+          <p>Indica los días en los que una actividad recurrente debe aparecer.</p>
+        </article>
+        <article class="feature">
+          <h3>Tu día de un vistazo</h3>
+          <p>Consulta hoy, mañana o periodos más amplios para ver qué espacio queda libre.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experiencia">
+    <div class="container">
+      <div class="block-label">Experiencia</div>
+      
+      <div class="fb-post">
+        <div class="post-header">
+          <img src="monpad.png" alt="Maxim" class="profile-pic">
+          <div class="post-info">
+            <span class="post-author">Maxim</span>
+            <span class="post-meta">Desarrollador </span>
+          </div>
+        </div>
+        <div class="post-content">
+          <p>Estamos trabajando continuamente en el avance de la aplicación. Aquí podrás seguir nuestro progreso.</p>
+        </div>
+        <div class="post-rating">
+          <div class="stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
 </main>
 
-<footer>
-    <div class="footer-content">
-        <div class="footer-brand">
-            <a href="#" class="brand-month">
-                <span class="brand-letter">M</span>
-                <span class="brand-letter">O</span>
-                <span class="brand-letter">N</span>
-                <span class="brand-letter">T</span>
-                <span class="brand-letter">H</span>
-            </a>
-            <p>Agenda inteligente que organiza tu día. Simple, local y sin complicaciones.</p>
-        </div>
-        <div class="footer-links">
-            <div class="footer-col">
-                <h4>Síguenos</h4>
-                <ul>
-                    <li><a href="https://www.instagram.com/maximlcruz/?hl=en" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2c-2.72 0-3.06.01-4.12.06-1.06.05-1.79.22-2.43.47-.66.26-1.22.6-1.77 1.16-.56.55-.9 1.11-1.16 1.77-.25.64-.42 1.37-.47 2.43C2.01 8.94 2 9.28 2 12s.01 3.06.06 4.12c.05 1.06.22 1.79.47 2.43.26.66.6 1.22 1.16 1.77.55.56 1.11.9 1.77 1.16.64.25 1.37.42 2.43.47C8.94 21.99 9.28 22 12 22s3.06-.01 4.12-.06c1.06-.05 1.79-.22 2.43-.47.66-.26 1.22-.6 1.77-1.16.56-.55.9-1.11 1.16-1.77.25-.64.42-1.37.47-2.43.05-1.06.06-1.4.06-4.12s-.01-3.06-.06-4.12c-.05-1.06-.22-1.79-.47-2.43-.26-.66-.6-1.22-1.16-1.77-.55-.56-1.11-.9-1.77-1.16-.64-.25-1.37-.42-2.43-.47C15.06 2.01 14.72 2 12 2zm0 1.8c2.67 0 2.99.01 4.04.06.98.04 1.51.21 1.86.35.47.18.8.4 1.15.75.35.35.57.68.75 1.15.14.35.31.88.35 1.86.05 1.05.06 1.37.06 4.04s-.01 2.99-.06 4.04c-.04.98-.21 1.51-.35 1.86-.18.47-.4.8-.75 1.15-.35.35-.68.57-1.15.75-.35.14-.88.31-1.86.35-1.05.05-1.37.06-4.04.06s-2.99-.01-4.04-.06c-.98-.04-1.51-.21-1.86-.35-.47-.18-.8-.4-1.15-.75-.35-.35-.57-.68-.75-1.15-.14-.35-.31-.88-.35-1.86C3.81 14.99 3.8 14.67 3.8 12s.01-2.99.06-4.04c.04-.98.21-1.51.35-1.86.18-.47.4-.8.75-1.15.35-.35.68-.57 1.15-.75.35-.14.88-.31 1.86-.35C9.01 3.81 9.33 3.8 12 3.8zm0 3.05a5.15 5.15 0 100 10.3 5.15 5.15 0 000-10.3zm0 8.5a3.35 3.35 0 110-6.7 3.35 3.35 0 010 6.7zm5.35-8.7a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>Instagram</a></li>
-                    <li><a href="https://www.facebook.com/?locale=es_LA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0022 12z"/></svg>Facebook</a></li>
-                </ul>
-            </div>
-        </div>
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icons">
+      <img src="and.png" alt="Google Play" class="store-icon-modal" id="modal-google" style="display:none">
+      <img src="Apple.png" alt="App Store" class="store-icon-modal" id="modal-apple" style="display:none">
     </div>
-    <div class="footer-bottom">
-        <p>...</p>
-        <div class="footer-badge">
-            <span class="blinking-dot"></span>
-            pre-release 00.01.26
-        </div>
-    </div>
-</footer>
-
-<div class="modal-overlay" id="downloadModal">
-    <div class="modal">
-        <button class="modal-close" onclick="closeModal()">&times;</button>
-        <img class="modal-img" src="android.png" alt="Android">
-        <img class="modal-img2" src="IconR.png" alt="Icono de Monpad">
-        <div class="modal-body">
-            <p>Obtén la versión más reciente de Monpad para Android y forma parte de <strong style="color: var(--texto-principal);"> V-release 00.01.26.</strong></p>
-            <div class="progress-bar-container" id="progressBar">
-                <div class="progress-bar-fill" id="progressFill"></div>
-            </div>
-            <a href="#" class="btn-download" id="downloadBtn">Descargar</a>
-            <div class="maintenance-msg" id="maintenanceMsg">
-                <span>En Mantenimiento</span><br>
-                En estos Momentos estamos mejorando<br>
-                <strong>Monpad</strong>
-            </div>
-        </div>
-    </div>
+    <img src="monpad.png" alt="Monpad" class="modal-icon">
+    <p>Monpad aun No cuenta con acceso Anticipado. Lo sentimos</p>
+    <button class="button primary" id="closeModal">Aceptar</button>
+  </div>
 </div>
 
+<footer>
+  <div class="container footer">
+    <div class="footer-top">
+      <span class="footer-brand">Monpad</span>
+      <span>© 2026 Monpad</span>
+    </div>
+    <div class="footer-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#descarga">Descarga</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
 <script>
-var downloadTimer = null;
+const menu=document.getElementById("menu");
+const nav=document.getElementById("nav");
+const modal=document.getElementById("modal");
+const closeModal=document.getElementById("closeModal");
 
-function openModal() {
-    document.getElementById('downloadModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-    
-    // Ocultar botón de descarga y mostrar mensaje de mantenimiento
-    document.getElementById('downloadBtn').classList.add('hidden');
-    document.getElementById('maintenanceMsg').classList.add('active');
-    
-    var progressBar = document.getElementById('progressBar');
-    var progressFill = document.getElementById('progressFill');
-    progressBar.classList.remove('active');
-    progressFill.style.width = '0%';
-    progressFill.classList.remove('filling');
-}
-
-function closeModal() {
-    document.getElementById('downloadModal').classList.remove('active');
-    document.body.style.overflow = '';
-    
-    if (downloadTimer) {
-        clearInterval(downloadTimer);
-        downloadTimer = null;
-    }
-    
-    var btn = document.getElementById('downloadBtn');
-    var progressBar = document.getElementById('progressBar');
-    var progressFill = document.getElementById('progressFill');
-    
-    btn.textContent = 'Descargar';
-    btn.style.pointerEvents = '';
-    btn.style.opacity = '1';
-    btn.style.backgroundColor = '';
-    btn.dataset.downloaded = 'false';
-    btn.classList.remove('hidden');
-    progressBar.classList.remove('active');
-    progressFill.style.width = '0%';
-    progressFill.classList.remove('filling');
-}
-
-document.getElementById('downloadModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeModal();
-    }
+menu.addEventListener("click",()=>{
+  nav.classList.toggle("open");
+  menu.textContent=nav.classList.contains("open")?"×":"☰";
 });
+nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{
+  nav.classList.remove("open");
+  menu.textContent="☰";
+}));
 
-document.getElementById('downloadBtn').addEventListener('click', function(e) {
+// Modal for download buttons
+const modalGoogle=document.getElementById("modal-google");
+const modalApple=document.getElementById("modal-apple");
+
+document.querySelectorAll('.download-card .button.primary').forEach(btn=>{
+  btn.addEventListener('click',(e)=>{
     e.preventDefault();
-    
-    if (this.dataset.downloaded === 'true') return;
-    
-    var btn = this;
-    var progressBar = document.getElementById('progressBar');
-    var progressFill = document.getElementById('progressFill');
-    
-    btn.classList.add('hidden');
-    progressBar.classList.add('active');
-    progressFill.style.width = '0%';
-    progressFill.classList.remove('filling');
-    
-    var width = 0;
-    var duration = 8000;
-    var interval = 30;
-    var step = 100 / (duration / interval);
-    var textChanged = false;
-    
-    downloadTimer = setInterval(function() {
-        width += step;
-        
-        if (width >= 50 && !textChanged) {
-            textChanged = true;
-            progressFill.classList.add('filling');
-        }
-        
-        if (width >= 100) {
-            width = 100;
-            clearInterval(downloadTimer);
-            downloadTimer = null;
-            setTimeout(function() {
-                var link = document.createElement('a');
-                link.href = 'app-debug.apk';
-                link.download = 'app-debug.apk';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                progressBar.classList.remove('active');
-                progressFill.style.width = '0%';
-                progressFill.classList.remove('filling');
-                btn.textContent = '¡Listo!';
-                btn.style.pointerEvents = 'none';
-                btn.style.opacity = '1';
-                btn.style.backgroundColor = 'var(--acento)';
-                btn.classList.remove('hidden');
-                btn.dataset.downloaded = 'true';
-            }, 500);
-        }
-        progressFill.style.width = width + '%';
-    }, interval);
+    const platform=btn.closest('.download-card').dataset.platform;
+    modalGoogle.style.display="none";
+    modalApple.style.display="none";
+    if(platform==="google") modalGoogle.style.display="block";
+    if(platform==="apple") modalApple.style.display="block";
+    modal.classList.add("active");
+  });
 });
-
-// ─── CARRUSEL ───
-var currentSlide = 0;
-var track = document.getElementById('carouselTrack');
-var slides = track ? track.querySelectorAll('.carousel-slide') : [];
-var totalSlides = slides.length;
-var dotsContainer = document.getElementById('carouselDots');
-
-if (dotsContainer && totalSlides > 0) {
-    for (var i = 0; i < totalSlides; i++) {
-        var dot = document.createElement('span');
-        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        dot.dataset.index = i;
-        dot.addEventListener('click', function() {
-            goToSlide(parseInt(this.dataset.index));
-        });
-        dotsContainer.appendChild(dot);
-    }
-}
-
-function goToSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    currentSlide = index;
-    track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-    var dots = dotsContainer.querySelectorAll('.carousel-dot');
-    for (var i = 0; i < dots.length; i++) {
-        dots[i].classList.toggle('active', i === currentSlide);
-    }
-}
-
-// ─── CARRUSEL DE IMÁGENES AUTOMÁTICO (CROSSFADE FLUIDO) ───
-var imgCurrentSlide = 0;
-var imgTrack = document.getElementById('imageCarouselTrack');
-var imgSlides = imgTrack ? imgTrack.querySelectorAll('.image-carousel-slide') : [];
-var imgTotal = imgSlides.length;
-
-if (imgTotal > 0) {
-    imgSlides[0].classList.add('active');
-}
-
-function nextImageSlide() {
-    if (imgTotal <= 1) return;
-    
-    imgSlides[imgCurrentSlide].classList.remove('active');
-    imgCurrentSlide = (imgCurrentSlide + 1) % imgTotal;
-    imgSlides[imgCurrentSlide].classList.add('active');
-}
-
-if (imgTotal > 1) {
-    setInterval(nextImageSlide, 4000);
-}
-
-// ─── DRAG & SWIPE (mouse + touch) ───
-var dragStartX = 0;
-var dragEndX = 0;
-var isDragging = false;
-
-track.addEventListener('mousedown', function(e) {
-    isDragging = true;
-    dragStartX = e.screenX;
-    e.preventDefault();
+closeModal.addEventListener('click',()=>{
+  modal.classList.remove("active");
+  modalGoogle.style.display="none";
+  modalApple.style.display="none";
 });
-
-track.addEventListener('mousemove', function(e) {
-    if (isDragging) e.preventDefault();
-});
-
-track.addEventListener('mouseup', function(e) {
-    if (!isDragging) return;
-    isDragging = false;
-    dragEndX = e.screenX;
-    if (dragStartX - dragEndX > 50) goToSlide(currentSlide + 1);
-    if (dragEndX - dragStartX > 50) goToSlide(currentSlide - 1);
-});
-
-track.addEventListener('mouseleave', function() {
-    isDragging = false;
-});
-
-track.addEventListener('touchstart', function(e) {
-    dragStartX = e.changedTouches[0].screenX;
-});
-
-track.addEventListener('touchend', function(e) {
-    dragEndX = e.changedTouches[0].screenX;
-    if (dragStartX - dragEndX > 50) goToSlide(currentSlide + 1);
-    if (dragEndX - dragStartX > 50) goToSlide(currentSlide - 1);
+modal.addEventListener('click',(e)=>{
+  if(e.target===modal) {
+    modal.classList.remove("active");
+    modalGoogle.style.display="none";
+    modalApple.style.display="none";
+  }
 });
 </script>
-
 </body>
 </html>
