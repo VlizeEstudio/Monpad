@@ -1,443 +1,439 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monpad — Tu tiempo, en orden</title>
-<meta name="description" content="Monpad. Una agenda sencilla para organizar tu día.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#FFFFFF;
-  --paper:#F7F6F3;
-  --ink:#191919;
-  --muted:#787774;
-  --line:#E9E9E7;
-  --soft:#F1F1EF;
-  --blue-bg:#E7F3F8; --blue-text:#0B6E99;
-  --green-bg:#EDF3EC; --green-text:#448361;
-  --amber-bg:#FAEBDD; --amber-text:#9A5B13;
-  --max:720px;
-  --r:8px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  line-height:1.5;
-  font-size:16px;
-}
-a{color:inherit;text-decoration:none;transition:color .2s ease}
-button{font:inherit;transition:all .2s ease}
-img{max-width:100%;display:block}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MonPad · Tu agenda, en orden</title>
+  <meta name="description" content="MonPad es una agenda personal en desarrollo para organizar citas, notas y recordatorios. Llega pronto a Android y iOS. Síguenos en Instagram: @monpad_Official." />
+  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/png" href="monpad-icon.png" />
+  <link rel="apple-touch-icon" href="monpad-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --line: #EAE9E6;
+      --soft: #F4F4F1;
+      --text: #191918;
+      --text-2: #5E5D59;
+      --text-3: #93928E;
+      --ink: #191918;
+      --on-ink: #FFFFFF;
+      --black: #0F0F0F;
 
-/* ANIMATIONS */
-@keyframes fadeInUp {
-  from {opacity:0;transform:translateY(20px)}
-  to {opacity:1;transform:translateY(0)}
-}
-@keyframes fadeIn {
-  from {opacity:0}
-  to {opacity:1}
-}
-@keyframes modalOpen {
-  0% {opacity:0;transform:translate(-50%,-50%) scale(.8)}
-  80% {transform:translate(-50%,-50%) scale(1.05)}
-  100% {opacity:1;transform:translate(-50%,-50%) scale(1)}
-}
+      --red: #E5484D;
+      --blue: #67AEF5;
+      --orange: #F5A067;
+      --purple: #8967F5;
+      --green: #4CC764;
+      --pink: #F567B7;
 
-.section, .page, .download-card, .feature {
-  opacity:0;
-  animation:fadeInUp .6s ease forwards;
-}
+      --gutter: 16px;
+      --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M3 11C40 4 70 3 104 6s62 5 93-2' fill='none' stroke='%23000' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141414;
+        --line: #2C2C2C;
+        --soft: #222222;
+        --text: #EDEDEB;
+        --text-2: #A9A8A4;
+        --text-3: #74736F;
+        --ink: #EDEDEB;
+        --on-ink: #141414;
+      }
+      .logo { filter: invert(.92); }
+      .phone { box-shadow: 0 0 0 1px rgba(255,255,255,.14) !important; }
+      .cta { box-shadow: 0 0 0 1px var(--line); }
+    }
 
-.section:nth-child(1) {animation-delay:.1s}
-.section:nth-child(2) {animation-delay:.2s}
-.section:nth-child(3) {animation-delay:.3s}
-.feature:nth-child(1) {animation-delay:.1s}
-.feature:nth-child(2) {animation-delay:.2s}
-.feature:nth-child(3) {animation-delay:.3s}
-.feature:nth-child(4) {animation-delay:.4s}
-.download-card:nth-child(1) {animation-delay:.1s}
-.download-card:nth-child(2) {animation-delay:.2s}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px; line-height: 1.6; word-spacing: .06em;
+      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .wrap {
+      max-width: 1080px; margin: 0 auto;
+      padding-left: max(var(--gutter), env(safe-area-inset-left));
+      padding-right: max(var(--gutter), env(safe-area-inset-right));
+    }
 
-.button:hover {
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
+    /* Aparición al hacer scroll */
+    .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .js .reveal.in { opacity: 1; transform: none; }
 
-.download-card {
-  transition:transform .3s ease,box-shadow .3s ease;
-}
-.download-card:hover {
-  transform:translateY(-4px);
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
-}
-.container{width:min(calc(100% - 32px),var(--max));margin:auto}
+    /* Botones y píldoras */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 50px; padding: 0 24px; border-radius: 999px;
+      font-size: 15px; font-weight: 700; transition: transform .15s, border-color .2s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn svg { width: 18px; height: 18px; }
+    .btn-primary { background: var(--ink); color: var(--on-ink); }
+    .btn-outline { box-shadow: inset 0 0 0 1.5px var(--line); }
+    .btn-outline:hover { box-shadow: inset 0 0 0 1.5px var(--text-3); }
+    .btn-sm { min-height: 38px; padding: 0 16px; font-size: 14px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line);
+      font-size: 13px; font-weight: 600; color: var(--text-2);
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .dot.live { animation: ping 2s infinite; }
+    @keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--orange) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 7px transparent; } }
 
-/* HEADER */
-header{
-  position:sticky;top:0;z-index:20;
-  background:rgba(255,255,255,.9);
-  backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--line);
-}
-.nav{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:8px}
-.brand-icon{
-  width:40px;height:40px;border-radius:6px;
-  object-fit:cover;
-}
-.brand-name{font-size:15px;font-weight:600}
-.nav-links{display:none}
-.nav-cta{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:34px;padding:0 14px;
-  border:1px solid var(--ink);background:var(--ink);color:var(--bg);
-  border-radius:6px;font-size:13px;font-weight:600;
-}
-.menu{
-  display:flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border:1px solid var(--line);border-radius:6px;
-  background:none;font-size:15px;cursor:pointer;color:var(--ink);
-}
-.nav-links.open{
-  display:flex;position:absolute;top:56px;left:0;right:0;
-  background:var(--bg);border-bottom:1px solid var(--line);
-  padding:6px 16px 16px;flex-direction:column;gap:0;
-}
-.nav-links a{font-size:14px;color:var(--ink);padding:12px 4px;border-bottom:1px solid var(--soft)}
-.nav-links a:last-child{border-bottom:0}
+    /* Encabezado */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid transparent; transition: border-color .2s;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+    .header-inner { display: flex; align-items: center; gap: 12px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
+    .brand .logo { width: 30px; height: 30px; }
+    .nav { display: none; gap: 4px; margin: 0 auto; }
+    .nav a { font-size: 15px; font-weight: 600; color: var(--text-2); padding: 8px 14px; border-radius: 999px; transition: color .15s; }
+    .nav a:hover { color: var(--text); }
+    .header-inner .btn { margin-left: auto; }
 
-/* PAGE HEAD (Notion doc-title feel) */
-.page{padding:36px 0 8px}
-.crumbs{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:14px}
-.crumbs .sep{opacity:.6}
-h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em}
-h1{font-size:clamp(34px,8vw,50px);line-height:1.15}
-.hero-copy{color:var(--muted);font-size:16px;line-height:1.6;margin:14px 0 0;max-width:56ch}
-.hero-title{display:flex;flex-direction:column;align-items:center;gap:4px}
-.title-image{width:180px;height:180px;border-radius:var(--r);object-fit:cover}
-.demo-label{font-size:12px;color:var(--muted);opacity:.6;font-weight:300;text-transform:uppercase;letter-spacing:.05em}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
-.tag{
-  display:inline-flex;align-items:center;padding:3px 9px;border-radius:5px;
-  font-size:12.5px;font-weight:500;
-}
-.tag.blue{background:var(--blue-bg);color:var(--blue-text)}
-.tag.green{background:var(--green-bg);color:var(--green-text)}
-.tag.amber{background:var(--amber-bg);color:var(--amber-text)}
-.hero-actions{display:flex;flex-direction:column;gap:8px;margin-top:24px}
-.button{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  min-height:42px;padding:0 16px;border-radius:6px;border:1px solid var(--line);
-  font-size:14px;font-weight:600;background:var(--bg);
-}
-.button.primary{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.button.secondary:hover{background:var(--soft)}
-.divider{border:0;border-top:1px solid var(--line);margin:36px 0}
+    /* Portada */
+    .hero { text-align: center; padding-top: 40px; }
+    .hero h1 {
+      margin: 20px auto 0; max-width: 900px;
+      font-size: clamp(42px, 11.5vw, 88px); font-weight: 800; line-height: 1; letter-spacing: -0.035em; word-spacing: .1em;
+    }
+    .mark { position: relative; white-space: nowrap; }
+    .mark::after {
+      content: ""; position: absolute; left: -2%; right: -2%; bottom: -.08em; height: .2em;
+      background: var(--orange);
+      -webkit-mask: var(--squiggle) center / 100% 100% no-repeat; mask: var(--squiggle) center / 100% 100% no-repeat;
+    }
+    .hero .lead { margin: 22px auto 0; max-width: 560px; font-size: 18px; color: var(--text-2); }
+    .hero .actions { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .soon { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-3); font-weight: 500; }
+    .soon svg { width: 16px; height: 16px; color: var(--text-2); }
 
-/* DOWNLOAD SECTION */
-.download-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
-.download-card{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;text-align:center;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);position:relative}
-.download-card img{max-width:80px;height:80px;object-fit:contain}
-.platform-label{position:absolute;top:8px;right:8px;font-size:12px;color:var(--muted);font-weight:300;background:var(--bg);padding:2px 6px;border-radius:4px}
+    .stage { position: relative; width: min(74vw, 300px); margin: 56px auto 0; }
+    .stage .crop {
+      height: min(92vw, 420px); overflow: hidden;
+      -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent);
+    }
+    .mascot {
+      position: absolute; z-index: 2; top: -66px; right: -30px;
+      width: 88px; height: 88px; color: var(--ink);
+      animation: bob 5s ease-in-out infinite;
+    }
+    .mascot .eyes, .cloud .eyes { transform-box: fill-box; transform-origin: center; animation: blink 5s infinite; }
+    .mascot .eyes { stroke: var(--bg); }
+    @keyframes bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
+    @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
 
-/* SECTIONS as Notion "page blocks" */
-.section{padding:8px 0 36px}
-.block-label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:.03em}
-.section h2{font-size:clamp(22px,6vw,28px);line-height:1.25;margin-bottom:6px}
-.section-intro{color:var(--muted);font-size:15px;line-height:1.65;max-width:56ch;margin:0 0 20px}
+    /* Marco de teléfono y pantalla recreada */
+    .phone { background: #0E0E0E; padding: 2.4%; border-radius: 13% / 6.4%; box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
+    .screen {
+      --a-bg: #F7F7F5; --a-card: #EFEFEC; --a-pill-on: #DDDDD9;
+      --a-line: #E3E3E0; --a-text: #37352F; --a-text-2: #9B9A97;
+      container-type: inline-size; aspect-ratio: 600 / 1180; position: relative; overflow: hidden;
+      border-radius: 10.5% / 5.2%; background: var(--a-bg); color: var(--a-text);
+      font-family: "Roboto", system-ui, sans-serif; word-spacing: normal;
+    }
+    .s-top { display: flex; align-items: center; justify-content: space-between; padding: 5cqw 5cqw 0 6cqw; }
+    .s-top > svg { width: 7.5cqw; height: 7.5cqw; }
+    .s-right { display: flex; align-items: center; gap: 4.5cqw; }
+    .s-mascot { width: 8cqw; height: 8cqw; color: var(--a-text-2); --eye: var(--a-bg); }
+    .s-avatar { width: 13cqw; height: 13cqw; border-radius: 50%; background: var(--a-card); display: grid; place-items: center; font-weight: 700; font-size: 5.4cqw; color: var(--a-text-2); }
+    .s-greet { margin: 5cqw 4.5cqw 0; background: var(--a-card); border-radius: 6cqw; padding: 3.8cqw 5cqw; font-size: 4.3cqw; line-height: 1.4; color: var(--a-text-2); }
+    .s-body { padding: 7cqw 4.5cqw 0; display: grid; grid-template-columns: 1fr 27cqw; gap: 3.5cqw; }
+    .s-appt { display: flex; gap: 2.6cqw; border-radius: 4cqw; padding: 5cqw 3.6cqw; margin-bottom: 2.6cqw; background: color-mix(in srgb, var(--c) 28%, var(--a-bg)); font-size: 4.6cqw; font-weight: 700; }
+    .s-appt::before { content: ""; width: 1cqw; border-radius: 1cqw; background: var(--c); flex-shrink: 0; }
+    .s-appt small, .s-free small { display: block; font-size: 3cqw; font-weight: 400; color: var(--a-text-2); }
+    .s-free { border: .45cqw dashed var(--a-line); border-radius: 4cqw; padding: 3.4cqw 3.6cqw 3.4cqw 7.2cqw; font-size: 3.9cqw; color: var(--a-text-2); }
+    .s-list { display: grid; gap: 3cqw; align-content: start; padding-top: 1cqw; }
+    .s-list div { font-size: 3.1cqw; line-height: 1.25; color: var(--a-text-2); padding-left: 3cqw; border-left: .9cqw solid var(--c); }
+    .s-list b { display: block; color: var(--a-text); font-weight: 500; }
 
-/* FEATURE LIST — Notion toggle/list block */
-.list-block{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.feature{
-  padding:16px 16px 16px 18px;border-bottom:1px solid var(--line);
-  border-left:3px solid var(--line);
-}
-.feature:last-child{border-bottom:0}
-.feature h3{font-size:15px;font-weight:600;line-height:1.4}
-.feature p{margin:3px 0 0;color:var(--muted);line-height:1.55;font-size:14px}
+    /* Secciones */
+    section { padding-top: 88px; scroll-margin-top: 64px; }
+    .head { text-align: center; max-width: 680px; margin: 0 auto; }
+    .head h2 { margin-top: 16px; font-size: clamp(32px, 8vw, 54px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; word-spacing: .08em; }
+    .head p { margin-top: 14px; font-size: 17px; color: var(--text-2); }
 
-/* CALLOUTS */
-.callout{
-  display:flex;gap:12px;align-items:flex-start;
-  border:1px solid var(--line);border-radius:var(--r);
-  padding:16px;background:var(--paper);
-}
-.callout + .callout{margin-top:12px}
-.callout h3{font-size:16px;font-weight:600;margin-bottom:4px}
-.callout p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
-.callout.blue{background:var(--blue-bg);border-color:#CFE7F1}
-.callout.blue p{color:#0B6E99cc}
-.callout.dark{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.callout.dark p{color:#B8B8B4}
-.warning-icon{width:20px;height:20px;color:#ff0000;flex-shrink:0; margin-right:8px}
+    /* Novedades */
+    .news { list-style: none; margin-top: 40px; display: grid; border-top: 1px solid var(--line); }
+    .news li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .news .n { font-size: 13px; font-weight: 700; color: var(--text-3); padding-top: 4px; font-variant-numeric: tabular-nums; }
+    .news h3 { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.3; }
+    .news h3 i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+    .news p { margin-top: 4px; font-size: 15.5px; color: var(--text-2); }
+    .more { margin-top: 28px; text-align: center; font-size: 15.5px; color: var(--text-2); }
+    .more b { color: var(--text); }
 
-/* FB POST STYLE */
-.fb-post{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.post-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.profile-pic{width:40px;height:40px;border-radius:50%;object-fit:cover}
-.post-info{display:flex;flex-direction:column}
-.post-author{font-weight:600;color:var(--ink);font-size:14px}
-.post-meta{font-size:12px;color:var(--muted)}
-.post-content p{margin:0;color:var(--ink);font-size:14px;line-height:1.5}
-.post-rating{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.stars{display:flex;gap:2px;color:#FFD700}
-.stars svg{width:18px;height:18px}
+    /* Avance */
+    .progress { margin: 36px auto 0; max-width: 560px; }
+    .progress-top { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+    .progress-top span { color: var(--text-3); font-weight: 500; }
+    .progress-bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; display: flex; }
+    .progress-bar .done { width: 50%; background: var(--ink); }
+    .progress-bar .doing { width: 16.66%; background: repeating-linear-gradient(-45deg, var(--orange) 0 5px, color-mix(in srgb, var(--orange) 45%, var(--bg)) 5px 10px); }
+    .lanes { margin-top: 40px; display: grid; gap: 28px; }
+    .lane-head { display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 2px solid var(--text); font-size: 15px; font-weight: 800; }
+    .lane-head .count { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--text-3); }
+    .item { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .item strong { display: block; font-size: 15.5px; font-weight: 700; line-height: 1.35; }
+    .item p { margin-top: 2px; font-size: 14px; color: var(--text-2); }
+    .item.done strong { text-decoration: line-through; text-decoration-color: var(--text-3); color: var(--text-2); }
 
-/* CTA */
-.cta-box{
-  border:1px solid var(--line);border-radius:var(--r);
-  background:var(--paper);padding:28px 20px;text-align:left;
-}
-.cta-box h2{font-size:clamp(22px,6vw,28px)}
-.cta-box p{color:var(--muted);font-size:14px;margin:10px 0 20px;line-height:1.6}
-.cta-box .button{width:100%}
+    /* Llamado final */
+    .cta {
+      margin-top: 96px; border-radius: 32px; background: var(--black); color: #FFFFFF;
+      text-align: center; padding: 60px 22px 52px;
+    }
+    .cloud { width: 80px; height: 80px; margin: 0 auto; color: #FFFFFF; animation: bob 5s ease-in-out infinite; }
+    .cloud .eyes { stroke: var(--black); animation-delay: 1.5s; }
+    .cta h2 { margin-top: 18px; font-size: clamp(30px, 7.5vw, 52px); font-weight: 800; line-height: 1.06; letter-spacing: -0.03em; word-spacing: .08em; }
+    .cta p { margin: 14px auto 0; max-width: 460px; font-size: 16px; color: rgba(255,255,255,.7); }
+    .cta .btn { margin-top: 28px; background: #FFFFFF; color: var(--black); }
+    .stores { margin-top: 28px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.12); display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; }
+    .store { display: inline-flex; align-items: center; gap: 10px; text-align: left; }
+    .store svg { width: 22px; height: 22px; }
+    .store small { display: block; font-size: 11px; color: rgba(255,255,255,.6); line-height: 1.2; }
+    .store strong { display: block; font-size: 15px; line-height: 1.2; }
 
-/* FOOTER */
-footer{border-top:1px solid var(--line);padding:20px 0 32px}
-.footer{display:flex;flex-direction:column;gap:12px;color:var(--muted);font-size:13px}
-.footer-top{display:flex;justify-content:space-between;align-items:center}
-.footer-brand{font-weight:600;color:var(--ink)}
-.footer-links{display:flex;gap:16px}
+    footer { padding-top: 40px; padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
+    .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+    .foot p { font-size: 13px; color: var(--text-3); }
+    .social { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text-2); }
+    .social svg { width: 18px; height: 18px; }
+    .social:hover { color: var(--text); }
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:100;opacity:0;transition:opacity .3s ease}
-.modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:var(--bg);padding:28px;border:1px solid var(--line);border-radius:var(--r);text-align:center;max-width:400px;width:calc(100% - 40px);opacity:0}
-.modal-icons{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
-.store-icon-modal{width:24px;height:24px;border-radius:4px;object-fit:cover}
-.modal-icon{width:48px;height:48px;border-radius:8px;object-fit:cover;margin:0 auto 16px}
-.modal p{margin:0 0 20px;color:var(--ink);font-size:15px}
-.modal-overlay.active{display:block;opacity:1}
-.modal-overlay.active .modal{animation:modalOpen .4s ease forwards}
-
-a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-
-/* MOBILE */
-@media(max-width:849px){
-  .download-cards{grid-template-columns:1fr}
-  .download-card{padding:16px}
-  .footer-links{flex-wrap:wrap;gap:8px}
-  .footer-top{flex-direction:column;gap:8px;align-items:flex-start}
-}
-
-/* DESKTOP */
-@media(min-width:850px){
-  :root{--max:760px}
-  .nav{min-height:60px}
-  .nav-links{display:flex;flex-direction:row;gap:22px;margin-left:auto;margin-right:12px;position:static;background:none;border:0;padding:0}
-  .nav-links a{border-bottom:0;padding:0;font-size:14px;color:var(--muted)}
-  .nav-links a:hover{color:var(--ink)}
-  .menu{display:none}
-
-  .page{padding:64px 0 12px}
-  .hero-actions{flex-direction:row}
-  .button{padding:0 18px}
-
-  .section{padding:12px 0 56px}
-  .feature{padding:18px 20px}
-  .title-image{width:250px;height:250px}
-}
-</style>
+    @media (min-width: 600px) {
+      :root { --gutter: 24px; }
+      .stage { width: 320px; }
+      .mascot { width: 110px; height: 110px; top: -50px; right: -70px; }
+      .news { grid-template-columns: 1fr 1fr; column-gap: 40px; border-top: 0; }
+      .news li:nth-child(-n+2) { border-top: 1px solid var(--line); }
+      .lanes { grid-template-columns: repeat(3, 1fr); align-items: start; }
+      .cta { padding: 76px 40px 64px; }
+    }
+    @media (min-width: 960px) {
+      :root { --gutter: 32px; }
+      .nav { display: flex; }
+      .header-inner .btn { margin-left: 0; }
+      .hero { padding-top: 72px; }
+      .stage { width: 340px; }
+      .stage .crop { height: 460px; }
+      .mascot { width: 130px; height: 130px; top: -60px; right: -110px; }
+      section { padding-top: 120px; }
+      .news h3 { font-size: 22px; }
+      .cta { margin-top: 120px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="#inicio" aria-label="Monpad">
-      <img src="monpad.png" alt="Monpad" class="brand-icon">
-    </a>
-    <nav class="nav-links" id="nav">
-      <a href="#funciones">Funciones</a>
-      <a href="#experiencia">Experiencia</a>
-    </nav>
 
-    <button class="menu" id="menu" aria-label="Abrir menú">☰</button>
-  </div>
-</header>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="mascota" viewBox="100 180 820 710">
+      <g fill="currentColor">
+        <circle cx="418" cy="402" r="208" /><circle cx="636" cy="424" r="188" />
+        <circle cx="330" cy="598" r="218" /><circle cx="718" cy="598" r="187" />
+        <circle cx="520" cy="676" r="204" /><circle cx="520" cy="560" r="240" />
+      </g>
+      <g style="stroke: var(--eye, #fff)" stroke-width="72" stroke-linecap="round">
+        <line x1="554" y1="368" x2="594" y2="448" /><line x1="706" y1="328" x2="746" y2="410" />
+      </g>
+    </symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><path d="M17.3 6.7h.01" stroke-width="2.6"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-.9-2.5-3.8zM14.1 5.9c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.7-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></symbol>
+    <symbol id="i-android" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.5l1.7-3a.4.4 0 0 0-.7-.4l-1.8 3.1A10.4 10.4 0 0 0 12 8.2c-1.7 0-3.3.4-4.8 1L5.4 6.1a.4.4 0 0 0-.7.4l1.7 3A9.6 9.6 0 0 0 1.5 17h21a9.6 9.6 0 0 0-4.9-7.5zM7 14.4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm10 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="m7 9 5 3.5L17 9"/></symbol>
+  </svg>
 
-<main id="inicio">
-  <section class="page">
-    <div class="container">
-      <div class="hero-title">
-        <span class="demo-label">Demo 5.09.26</span>
-        <h1>Monpad</h1>
-        <img src="monpad (1).png" alt="Monpad" class="title-image">
-      </div>
-      <p class="hero-copy">
-        Monpad reúne tus actividades y horarios en un solo lugar.
-        Mira tu día de un vistazo y organiza lo que sigue sin complicarlo.
+  <header class="site-header" id="top">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="MonPad, inicio">
+        <img class="logo" src="monpad-logo.png" alt="" width="30" height="30" />
+        MonPad
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#novedades">Novedades</a>
+        <a href="#avance">Avance</a>
+      </nav>
+      <a class="btn btn-primary btn-sm" href="https://www.instagram.com/monpad_Official/" target="_blank" rel="noopener">
+        <svg aria-hidden="true"><use href="#i-instagram" /></svg>Síguenos
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Portada -->
+    <div class="wrap hero">
+      <span class="pill reveal"><span class="dot live"></span>En desarrollo · Versión 1.0.2</span>
+      <h1 class="reveal">Tu agenda, clara y <span class="mark">en orden</span>.</h1>
+      <p class="lead reveal">
+        MonPad reúne tus citas, notas y recordatorios en un solo lugar.
+        Todavía la estamos construyendo, y ya falta menos.
       </p>
-
-      <div class="hero-actions">
-        <a class="button secondary" href="#funciones">Conocer más</a>
+      <div class="actions reveal">
+        <a class="btn btn-primary" href="https://www.instagram.com/monpad_Official/" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-instagram" /></svg>Seguir @monpad_Official
+        </a>
+        <a class="btn btn-outline" href="#novedades">Qué hay de nuevo</a>
       </div>
-    </div>
-  </section>
-
-  <div class="container"><hr class="divider"></div>
-
-  <section class="section" id="descargar">
-    <div class="container">
-      <div class="callout dark">
-        <div>
-          <svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
-          <h3>Estamos Actualizando Continuamente.</h3>
-          <p>Lamentamos la Espera.</p>
-        </div>
+      <div class="soon reveal">
+        Próximamente en
+        <svg aria-label="Android" role="img"><use href="#i-android" /></svg>Android y
+        <svg aria-label="iOS" role="img"><use href="#i-apple" /></svg>iOS
       </div>
-      <div class="download-cards">
-        <div class="download-card" data-platform="google">
-          <img src="and.png" alt="Google Play">
-          <span class="platform-label">Android</span>
-          <a class="button primary" href="#" data-platform="google">Descargar</a>
-        </div>
-        <div class="download-card" data-platform="apple">
-          <img src="Apple.png" alt="App Store">
-          <span class="platform-label">Apple</span>
-          <a class="button primary" href="#" data-platform="apple">Descargar</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section" id="funciones">
-    <div class="container">
-      <div class="block-label">Funciones</div>
-      <h2>Lo necesario. Nada más.</h2>
-      <p class="section-intro">
-        Monpad está pensado para que organizar tus actividades sea directo:
-        eliges el momento, añades lo que necesitas y sigues con tu día.
-      </p>
-
-      <div class="list-block">
-        <article class="feature">
-          <h3>Agenda por horas</h3>
-          <p>Visualiza tus actividades en una línea de tiempo y entiende cómo está ocupado tu día.</p>
-        </article>
-        <article class="feature">
-          <h3>Actividades</h3>
-          <p>Crea actividades con horario, sin tener que navegar por menús innecesarios.</p>
-        </article>
-        <article class="feature">
-          <h3>Repetición por días</h3>
-          <p>Indica los días en los que una actividad recurrente debe aparecer.</p>
-        </article>
-        <article class="feature">
-          <h3>Tu día de un vistazo</h3>
-          <p>Consulta hoy, mañana o periodos más amplios para ver qué espacio queda libre.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="experiencia">
-    <div class="container">
-      <div class="block-label">Experiencia</div>
-      
-      <div class="fb-post">
-        <div class="post-header">
-          <img src="monpad.png" alt="Maxim" class="profile-pic">
-          <div class="post-info">
-            <span class="post-author">Maxim</span>
-            <span class="post-meta">Desarrollador </span>
-          </div>
-        </div>
-        <div class="post-content">
-          <p>Estamos trabajando continuamente en el avance de la aplicación. Aquí podrás seguir nuestro progreso.</p>
-        </div>
-        <div class="post-rating">
-          <div class="stars">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L12 17.27z"/></svg>
+      <div class="stage reveal" aria-hidden="true">
+        <svg class="mascot" viewBox="100 180 820 710">
+          <g fill="currentColor">
+            <circle cx="418" cy="402" r="208" /><circle cx="636" cy="424" r="188" />
+            <circle cx="330" cy="598" r="218" /><circle cx="718" cy="598" r="187" />
+            <circle cx="520" cy="676" r="204" /><circle cx="520" cy="560" r="240" />
+          </g>
+          <g class="eyes" stroke-width="72" stroke-linecap="round">
+            <line x1="554" y1="368" x2="594" y2="448" /><line x1="706" y1="328" x2="746" y2="410" />
+          </g>
+        </svg>
+        <div class="crop">
+          <div class="phone">
+            <div class="screen">
+              <div class="s-top">
+                <svg><use href="#i-mail" /></svg>
+                <div class="s-right"><svg class="s-mascot"><use href="#mascota" /></svg><span class="s-avatar">G</span></div>
+              </div>
+              <div class="s-greet">Hoy es Domingo.<br />¡Listo para la acción!</div>
+              <div class="s-body">
+                <div>
+                  <div class="s-appt" style="--c: var(--blue)"><div>Reunión<small>8:00 – 9:30 PM</small></div></div>
+                  <div class="s-free">Hora libre!<small>9:30 PM</small></div>
+                </div>
+                <div class="s-list">
+                  <div style="--c: var(--pink)"><b>Clase</b>4:00 PM</div>
+                  <div style="--c: var(--orange)"><b>Gym</b>10:00 PM</div>
+                  <div style="--c: var(--purple)"><b>Leer</b>11:15 PM</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
+    <!-- Novedades -->
+    <section class="wrap" id="novedades">
+      <div class="head reveal">
+        <span class="pill">Versión 1.0.2</span>
+        <h2>Un adelanto de lo nuevo</h2>
+        <p>Lo que ya puedes esperar cuando MonPad llegue a tu teléfono.</p>
+      </div>
+      <ol class="news">
+        <li class="reveal"><span class="n">01</span><div><h3><i style="--c: var(--blue)"></i>Tres vistas para Inicio</h3><p>Normal, Gráfico y Minimalista: elige cómo quieres ver tu día.</p></div></li>
+        <li class="reveal"><span class="n">02</span><div><h3><i style="--c: var(--purple)"></i>Calendario renovado</h3><p>Abre en la hora actual y agrupa las citas que coinciden.</p></div></li>
+        <li class="reveal"><span class="n">03</span><div><h3><i style="--c: var(--text-3)"></i>Modo oscuro</h3><p>Claro, oscuro o el tema de tu teléfono.</p></div></li>
+        <li class="reveal"><span class="n">04</span><div><h3><i style="--c: var(--green)"></i>Inicio con personalidad</h3><p>Mensajes para tu día libre y cuando completas todas tus citas.</p></div></li>
+      </ol>
+      <p class="more reveal">El resto lo verás en la app. <b>Síguenos para enterarte primero.</b></p>
+    </section>
 
-</main>
+    <!-- Avance -->
+    <section class="wrap" id="avance">
+      <div class="head reveal">
+        <span class="pill">Avance</span>
+        <h2>Rumbo al lanzamiento</h2>
+        <p>Lo que ya está listo, lo que construimos ahora y lo que falta.</p>
+      </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="modal-icons">
-      <img src="and.png" alt="Google Play" class="store-icon-modal" id="modal-google" style="display:none">
-      <img src="Apple.png" alt="App Store" class="store-icon-modal" id="modal-apple" style="display:none">
+      <div class="progress reveal">
+        <div class="progress-top">Progreso<span>3 de 6</span></div>
+        <div class="progress-bar" aria-hidden="true"><i class="done"></i><i class="doing"></i></div>
+      </div>
+
+      <div class="lanes">
+        <div class="reveal">
+          <div class="lane-head"><span class="dot" style="background: var(--green)"></span>Listo<span class="count">3</span></div>
+          <div class="item done"><strong>Inicio con 3 vistas</strong></div>
+          <div class="item done"><strong>Modo oscuro</strong></div>
+          <div class="item done"><strong>Calendario renovado</strong></div>
+        </div>
+        <div class="reveal">
+          <div class="lane-head"><span class="dot live"></span>En desarrollo<span class="count">1</span></div>
+          <div class="item"><strong>Búsqueda de citas</strong><p>Encuentra cualquier cita escribiendo su nombre.</p></div>
+        </div>
+        <div class="reveal">
+          <div class="lane-head"><span class="dot" style="background: var(--text-3)"></span>Próximamente<span class="count">2</span></div>
+          <div class="item"><strong>Más mejoras al calendario</strong></div>
+          <div class="item"><strong>Lanzamiento en Google Play y App Store</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Llamado final -->
+    <div class="wrap">
+      <div class="cta reveal">
+        <svg class="cloud" viewBox="100 180 820 710" aria-hidden="true">
+          <g fill="currentColor">
+            <circle cx="418" cy="402" r="208" /><circle cx="636" cy="424" r="188" />
+            <circle cx="330" cy="598" r="218" /><circle cx="718" cy="598" r="187" />
+            <circle cx="520" cy="676" r="204" /><circle cx="520" cy="560" r="240" />
+          </g>
+          <g class="eyes" stroke-width="72" stroke-linecap="round">
+            <line x1="554" y1="368" x2="594" y2="448" /><line x1="706" y1="328" x2="746" y2="410" />
+          </g>
+        </svg>
+        <h2>Llega pronto a tu teléfono</h2>
+        <p>Síguenos en Instagram para ver avances y enterarte primero del lanzamiento.</p>
+        <a class="btn" href="https://www.instagram.com/monpad_Official/" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-instagram" /></svg>@monpad_Official
+        </a>
+        <div class="stores">
+          <div class="store"><svg aria-hidden="true"><use href="#i-android" /></svg><span><small>Próximamente en</small><strong>Google Play</strong></span></div>
+          <div class="store"><svg aria-hidden="true"><use href="#i-apple" /></svg><span><small>Próximamente en</small><strong>App Store</strong></span></div>
+        </div>
+      </div>
     </div>
-    <img src="monpad.png" alt="Monpad" class="modal-icon">
-    <p>Monpad aun No cuenta con acceso Anticipado. Lo sentimos</p>
-    <button class="button primary" id="closeModal">Aceptar</button>
-  </div>
-</div>
+  </main>
 
-<footer>
-  <div class="container footer">
-    <div class="footer-top">
-      <span class="footer-brand">Monpad</span>
-      <span>© 2026 Monpad</span>
+  <footer>
+    <div class="wrap foot">
+      <a class="brand" href="#top"><img class="logo" src="monpad-logo.png" alt="" width="30" height="30" />MonPad</a>
+      <a class="social" href="https://www.instagram.com/monpad_Official/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-instagram" /></svg>@monpad_Official</a>
+      <p>Desarrollado por Vlizee Estudio · © 2026</p>
     </div>
-    <div class="footer-links">
-      <a href="#inicio">Inicio</a>
-      <a href="#funciones">Funciones</a>
-      <a href="#descarga">Descarga</a>
-      <a href="#">Instagram</a>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-const menu=document.getElementById("menu");
-const nav=document.getElementById("nav");
-const modal=document.getElementById("modal");
-const closeModal=document.getElementById("closeModal");
+  <script>
+    const header = document.querySelector('.site-header');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-menu.addEventListener("click",()=>{
-  nav.classList.toggle("open");
-  menu.textContent=nav.classList.contains("open")?"×":"☰";
-});
-nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{
-  nav.classList.remove("open");
-  menu.textContent="☰";
-}));
-
-// Modal for download buttons
-const modalGoogle=document.getElementById("modal-google");
-const modalApple=document.getElementById("modal-apple");
-
-document.querySelectorAll('.download-card .button.primary').forEach(btn=>{
-  btn.addEventListener('click',(e)=>{
-    e.preventDefault();
-    const platform=btn.closest('.download-card').dataset.platform;
-    modalGoogle.style.display="none";
-    modalApple.style.display="none";
-    if(platform==="google") modalGoogle.style.display="block";
-    if(platform==="apple") modalApple.style.display="block";
-    modal.classList.add("active");
-  });
-});
-closeModal.addEventListener('click',()=>{
-  modal.classList.remove("active");
-  modalGoogle.style.display="none";
-  modalApple.style.display="none";
-});
-modal.addEventListener('click',(e)=>{
-  if(e.target===modal) {
-    modal.classList.remove("active");
-    modalGoogle.style.display="none";
-    modalApple.style.display="none";
-  }
-});
-</script>
+    // Aparición al hacer scroll
+    const io = 'IntersectionObserver' in window
+      ? new IntersectionObserver(entries => entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' })
+      : null;
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>
