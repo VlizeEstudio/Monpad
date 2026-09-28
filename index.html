@@ -98,16 +98,17 @@
       position: sticky; top: 0; z-index: 50;
       background: color-mix(in srgb, var(--bg) 88%, transparent);
       backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px);
-      border-bottom: 1px solid transparent; transition: border-color .2s;
+      border-bottom: 1px solid transparent;
     }
     .site-header.scrolled { border-bottom-color: var(--line); }
     .header-inner { display: flex; align-items: center; gap: 12px; height: 64px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
     .brand .logo { width: 30px; height: 30px; }
     .nav { display: none; gap: 4px; margin: 0 auto; }
-    .nav a { font-size: 15px; font-weight: 600; color: var(--text-2); padding: 8px 14px; border-radius: 999px; transition: color .15s; }
+    .nav a { font-size: 15px; font-weight: 600; color: var(--text-2); padding: 8px 14px; border-radius: 999px; }
     .nav a:hover { color: var(--text); }
-    .header-inner .btn { margin-left: auto; }
+    .header-inner .btn { margin-left: auto; transition: none; }
+    .header-inner .btn:active { transform: none; }
 
     /* Portada */
     .hero { text-align: center; padding-top: 40px; }
@@ -269,7 +270,6 @@
   <header class="site-header" id="top">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="MonPad, inicio">
-        <img class="logo" src="MonPad icon.png" alt="" width="30" height="30" />
         MonPad
       </a>
       <nav class="nav" aria-label="Secciones">
@@ -277,7 +277,7 @@
         <a href="#avance">Avance</a>
       </nav>
       <a class="btn btn-primary btn-sm" href="https://www.instagram.com/monpad_Official/" target="_blank" rel="noopener">
-        <svg aria-hidden="true"><use href="#i-instagram" /></svg>Síguenos
+        Síguenos
       </a>
     </div>
   </header>
